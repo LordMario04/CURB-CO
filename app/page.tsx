@@ -162,6 +162,93 @@ export default function Home() {
           </MovingBorderButton>
         </div>
       </section>
+      {/* Footer */}
+      <footer className="w-full border-t border-white/5 bg-[#0a0a0a] py-16 px-6">
+        <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-12">
+          {/* Marca */}
+          <div className="col-span-2 md:col-span-1 flex flex-col gap-4">
+            <span className="text-white text-lg font-bold tracking-[4px] uppercase">
+              CURB CO.
+            </span>
+            <p className="text-white/20 text-xs tracking-[1px] leading-relaxed">
+              From the Curb Up. Ropa y accesorios de skate desde Medellín.
+            </p>
+            <span className="text-[#FF3B30] text-[10px] tracking-[2px] uppercase">
+              Built for the Streets.
+            </span>
+          </div>
+
+          {/* Shop */}
+          <div className="flex flex-col gap-4">
+            <span className="text-white text-[10px] tracking-[3px] uppercase">
+              Shop
+            </span>
+            {["Ropa", "Zapatillas", "Accesorios", "Skate Gear", "Sale"].map(
+              (item) => (
+                <a
+                  key={item}
+                  href="#"
+                  className="text-white/30 text-xs tracking-[1px] hover:text-[#FF3B30] transition-colors"
+                >
+                  {item}
+                </a>
+              ),
+            )}
+          </div>
+
+          {/* Marcas */}
+          <div className="flex flex-col gap-4">
+            <span className="text-white text-[10px] tracking-[3px] uppercase">
+              Marcas
+            </span>
+            {["Thrasher", "Vans", "Santa Cruz", "Volcom", "HUF"].map((item) => (
+              <a
+                key={item}
+                href="#"
+                className="text-white/30 text-xs tracking-[1px] hover:text-[#FF3B30] transition-colors"
+              >
+                {item}
+              </a>
+            ))}
+          </div>
+
+          {/* Info */}
+          <div className="flex flex-col gap-4">
+            <span className="text-white text-[10px] tracking-[3px] uppercase">
+              Info
+            </span>
+            {["Sobre nosotros", "Envíos", "Devoluciones", "Contacto"].map(
+              (item) => (
+                <a
+                  key={item}
+                  href="#"
+                  className="text-white/30 text-xs tracking-[1px] hover:text-[#FF3B30] transition-colors"
+                >
+                  {item}
+                </a>
+              ),
+            )}
+          </div>
+        </div>
+
+        {/* Bottom bar */}
+        <div className="max-w-6xl mx-auto mt-16 pt-6 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-4">
+          <span className="text-white/20 text-[10px] tracking-[1px]">
+            © 2025 CURB CO. — Medellín, Colombia
+          </span>
+          <div className="flex gap-6">
+            {["Instagram", "TikTok", "Pinterest"].map((social) => (
+              <a
+                key={social}
+                href="#"
+                className="text-white/20 text-[10px] tracking-[2px] uppercase hover:text-[#FF3B30] transition-colors"
+              >
+                {social}
+              </a>
+            ))}
+          </div>
+        </div>
+      </footer>
       <div className="h-screen bg-[#0a0a0a]" />
     </main>
   );
