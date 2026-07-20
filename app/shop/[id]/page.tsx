@@ -2,7 +2,8 @@
 import { FloatingNav } from "@/components/ui/floating-navbar";
 import { IconHome, IconShirt, IconTag, IconUser } from "@tabler/icons-react";
 import { motion } from "motion/react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useParams } from "next/navigation";
 
 const navItems = [
   { name: "Shop", link: "/shop", icon: <IconShirt size={16} /> },
@@ -11,26 +12,34 @@ const navItems = [
   { name: "Sale", link: "/sale", icon: <IconUser size={16} /> },
 ];
 
-// Producto de ejemplo - después vendrá del backend
-const product = {
-  id: 1,
-  brand: "Thrasher",
-  title: "Mag Logo Hoodie",
-  price: "$89.900",
-  description: "Hoodie clásico de Thrasher con el icónico logo Mag en el pecho. Algodón 100%, corte regular, disponible en negro.",
-  sizes: ["S", "M", "L", "XL", "XXL"],
-  tag: "Hot",
-};
-
 export default function ProductPage() {
+  const { id } = useParams();
+  const [product, setProduct] = useState<any>(null);
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch("http://localhost:8081/api/products/" + id)
+      .then((res) => res.json())
+      .then((data) => {
+        setProduct(data);
+        setLoading(false);
+      });
+  }, [id]);
+
+  if (loading) return (
+    <main className="min-h-screen bg-[#0a0a0a] flex items-center justify-center">
+      <p className="text-white/20 text-xs tracking-[2px] uppercase">Cargando...</p>
+    </main>
+  );
+
+  const sizes = ["S", "M", "L", "XL", "XXL"];
 
   return (
     <main className="min-h-screen bg-[#0a0a0a]">
       <FloatingNav navItems={navItems} />
 
       <div className="max-w-6xl mx-auto px-6 pt-32 pb-16">
-        {/* Breadcrumb */}
         <div className="flex gap-2 items-center mb-12">
           <a href="/" className="text-white/20 text-[10px] tracking-[2px] uppercase hover:text-white transition-colors">Home</a>
           <span className="text-white/10 text-[10px]">/</span>
@@ -40,7 +49,6 @@ export default function ProductPage() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
-          {/* Imagen */}
           <motion.div
             initial={{ opacity: 0, x: -40 }}
             animate={{ opacity: 1, x: 0 }}
@@ -57,7 +65,6 @@ export default function ProductPage() {
             </span>
           </motion.div>
 
-          {/* Info */}
           <motion.div
             initial={{ opacity: 0, x: 40 }}
             animate={{ opacity: 1, x: 0 }}
@@ -71,14 +78,13 @@ export default function ProductPage() {
             </div>
 
             <p className="text-white/30 text-sm leading-relaxed tracking-wide">
-              {product.description}
+              Producto auténtico de {product.brand}. Categoría: {product.category}.
             </p>
 
-            {/* Tallas */}
             <div>
               <p className="text-white/40 text-[10px] tracking-[2px] uppercase mb-3">Talla</p>
               <div className="flex gap-2">
-                {product.sizes.map((size) => (
+                {sizes.map((size) => (
                   <button
                     key={size}
                     onClick={() => setSelectedSize(size)}
@@ -94,7 +100,6 @@ export default function ProductPage() {
               </div>
             </div>
 
-            {/* Botones */}
             <div className="flex flex-col gap-3 mt-4">
               <button className="w-full bg-[#FF3B30] text-white py-4 text-xs tracking-[3px] uppercase hover:bg-[#cc2f26] transition-colors">
                 Agregar al carrito
