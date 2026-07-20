@@ -22,12 +22,14 @@ export const HoverEffect = ({
   return (
     <div className={cn("grid grid-cols-2 md:grid-cols-4 py-6 gap-2", className)}>
       {items.map((item, idx) => (
-        <div
-          key={idx}
-          className="relative group block p-1 h-full w-full cursor-pointer"
-          onMouseEnter={() => setHoveredIndex(idx)}
-          onMouseLeave={() => setHoveredIndex(null)}
-        >
+        
+          <a
+            href={"/shop/" + (idx + 1)}
+            key={idx}
+            className="relative group block p-1 h-full w-full cursor-pointer"
+            onMouseEnter={() => setHoveredIndex(idx)}
+            onMouseLeave={() => setHoveredIndex(null)}
+          >
           <AnimatePresence>
             {hoveredIndex === idx && (
               <motion.span
@@ -40,7 +42,6 @@ export const HoverEffect = ({
             )}
           </AnimatePresence>
           <div className="rounded-sm h-full w-full overflow-hidden bg-[#111] border border-white/5 group-hover:border-[#FF3B30]/30 relative z-20 transition-colors">
-            {/* Imagen placeholder */}
             <div className="h-48 bg-[#1a1a1a] flex items-center justify-center relative">
               {item.tag && (
                 <span className="absolute top-2 left-2 bg-[#FF3B30] text-white text-[9px] tracking-[1px] uppercase px-2 py-1">
@@ -51,7 +52,6 @@ export const HoverEffect = ({
                 {item.brand.slice(0, 2)}
               </span>
             </div>
-            {/* Info */}
             <div className="p-4">
               <p className="text-white/30 text-[9px] tracking-[2px] uppercase mb-1">{item.brand}</p>
               <h4 className="text-white text-sm tracking-wide mb-3">{item.title}</h4>
@@ -63,7 +63,7 @@ export const HoverEffect = ({
               </div>
             </div>
           </div>
-        </div>
+        </a>
       ))}
     </div>
   );

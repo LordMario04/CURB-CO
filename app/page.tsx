@@ -249,7 +249,6 @@ export default function Home() {
           </div>
         </div>
       </footer>
-      <div className="h-screen bg-[#0a0a0a]" />
     </main>
   );
 }
