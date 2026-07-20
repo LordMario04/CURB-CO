@@ -3,8 +3,9 @@
 import { FloatingNav } from "@/components/ui/floating-navbar";
 import { LampContainer } from "@/components/ui/lamp";
 import { InfiniteMovingCards } from "@/components/ui/infinite-moving-cards";
+import { BentoGrid, BentoGridItem } from "@/components/ui/bento-grid";
+import { IconHome, IconShirt, IconShoe, IconSunglasses, IconTag, IconTrowel, IconUser } from "@tabler/icons-react";
 import { HoverEffect } from "@/components/ui/card-hover-effect";
-import { IconHome, IconShirt, IconTag, IconUser } from "@tabler/icons-react";
 import { motion } from "motion/react";
 
 const navItems = [
@@ -94,6 +95,34 @@ export default function Home() {
           ]}
         />
       </section>
+      {/* Categorías */}
+<section className="w-full max-w-6xl mx-auto px-6 py-16">
+  <div className="flex items-baseline justify-between mb-8">
+    <h2 className="text-white text-xs tracking-[4px] uppercase">Categorías</h2>
+  </div>
+  <BentoGrid>
+    <BentoGridItem
+      title="Ropa"
+      count="120"
+      icon={<IconShirt size={28} />}
+    />
+    <BentoGridItem
+      title="Zapatillas"
+      count="85"
+      icon={<IconShoe size={28} />}
+    />
+    <BentoGridItem
+      title="Accesorios"
+      count="64"
+      icon={<IconSunglasses size={28} />}
+    />
+    <BentoGridItem
+      title="Skate Gear"
+      count="43"
+      icon={<IconTrowel size={28} />}
+    />
+  </BentoGrid>
+</section>
       <div className="h-screen bg-[#0a0a0a]" />
     </main>
   );
