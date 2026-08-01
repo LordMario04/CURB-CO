@@ -76,9 +76,12 @@ export const FloatingNav = ({
           {/* Divider */}
           <div className="h-5 w-px bg-neutral-200 dark:bg-white/10" />
           {/* CTA Button */}
-          <button className="relative rounded-full bg-[#FF3B30] px-4 py-2 text-sm font-medium text-white transition-all hover:bg-[#cc2f26]">
+          <a
+            href="/login"
+            className="relative rounded-full bg-[#FF3B30] px-4 py-2 text-sm font-medium text-white transition-all hover:bg-[#cc2f26]"
+          >
             <span>Login</span>
-          </button>
+          </a>
         </div>
       </motion.div>
     </AnimatePresence>
