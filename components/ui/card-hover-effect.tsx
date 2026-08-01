@@ -1,6 +1,7 @@
 "use client";
 import { cn } from "@/lib/utils";
 import { AnimatePresence, motion } from "motion/react";
+import { useCartStore } from "@/store/cartStore";
 import { useState } from "react";
 
 export type Product = {
@@ -18,18 +19,18 @@ export const HoverEffect = ({
   className?: string;
 }) => {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const addItem = useCartStore((state) => state.addItem);
 
   return (
     <div className={cn("grid grid-cols-2 md:grid-cols-4 py-6 gap-2", className)}>
       {items.map((item, idx) => (
-        
-          <a
-            href={"/shop/" + (idx + 1)}
-            key={idx}
-            className="relative group block p-1 h-full w-full cursor-pointer"
-            onMouseEnter={() => setHoveredIndex(idx)}
-            onMouseLeave={() => setHoveredIndex(null)}
-          >
+        <a
+          href={"/shop/" + (idx + 1)}
+          key={idx}
+          className="relative group block p-1 h-full w-full cursor-pointer"
+          onMouseEnter={() => setHoveredIndex(idx)}
+          onMouseLeave={() => setHoveredIndex(null)}
+        >
           <AnimatePresence>
             {hoveredIndex === idx && (
               <motion.span
@@ -57,7 +58,18 @@ export const HoverEffect = ({
               <h4 className="text-white text-sm tracking-wide mb-3">{item.title}</h4>
               <div className="flex items-center justify-between">
                 <span className="text-[#FF3B30] text-sm font-medium">{item.price}</span>
-                <button className="text-[9px] tracking-[1px] uppercase text-white/40 border border-white/10 px-2 py-1 hover:border-[#FF3B30] hover:text-[#FF3B30] transition-colors">
+                <button
+                  onClick={(e) => {
+                    e.preventDefault();
+                    addItem({
+                      id: idx + 1,
+                      brand: item.brand,
+                      title: item.title,
+                      price: item.price,
+                    });
+                  }}
+                  className="text-[9px] tracking-[1px] uppercase text-white/40 border border-white/10 px-2 py-1 hover:border-[#FF3B30] hover:text-[#FF3B30] transition-colors"
+                >
                   + Add
                 </button>
               </div>

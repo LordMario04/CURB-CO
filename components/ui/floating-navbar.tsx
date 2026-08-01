@@ -1,5 +1,7 @@
 "use client";
-import React, { useState } from "react";
+import { useState, type ReactNode } from "react";
+import { useCartStore } from "@/store/cartStore";
+import { IconShoppingBag } from "@tabler/icons-react";
 import {
   motion,
   AnimatePresence,
@@ -15,11 +17,12 @@ export const FloatingNav = ({
   navItems: {
     name: string;
     link: string;
-    icon?: JSX.Element;
+    icon?: ReactNode;
   }[];
   className?: string;
 }) => {
   const { scrollYProgress } = useScroll();
+  const totalItems = useCartStore((state) => state.getTotalItems());
   const [visible, setVisible] = useState(false);
 
   useMotionValueEvent(scrollYProgress, "change", (current) => {
@@ -29,11 +32,7 @@ export const FloatingNav = ({
       if (scrollYProgress.get() < 0.05) {
         setVisible(false);
       } else {
-        if (direction < 0) {
-          setVisible(true);
-        } else {
-          setVisible(false);
-        }
+        setVisible(direction < 0);
       }
     }
   });
@@ -41,31 +40,23 @@ export const FloatingNav = ({
   return (
     <AnimatePresence mode="wait">
       <motion.div
-        initial={{
-          opacity: 1,
-          y: -100,
-        }}
-        animate={{
-          y: visible ? 0 : -100,
-          opacity: visible ? 1 : 0,
-        }}
-        transition={{
-          duration: 0.2,
-        }}
+        initial={{ opacity: 1, y: -100 }}
+        animate={{ y: visible ? 0 : -100, opacity: visible ? 1 : 0 }}
+        transition={{ duration: 0.2 }}
         className={cn(
           "flex max-w-fit fixed top-10 inset-x-0 mx-auto z-[5000] items-center justify-center",
-          className,
+          className
         )}
       >
-        <div className="flex items-center justify-center gap-2 rounded-full border border-white/10 bg-white/80 px-2 py-1.5 shadow-lg shadow-black/10 backdrop-blur-md dark:border-white/10 dark:bg-black/50">
-          {/* Nav items container */}
+        <div className="flex items-center justify-center gap-2 rounded-full border border-white/10 bg-black/90 px-2 py-1.5 shadow-lg shadow-black/40 backdrop-blur-md">
+          {/* Nav items */}
           <div className="flex items-center gap-1">
-            {navItems.map((navItem, idx: number) => (
+            {navItems.map((navItem) => (
               <a
-                key={`link-${idx}`}
+                key={navItem.link}
                 href={navItem.link}
                 className={cn(
-                  "relative flex items-center gap-1 rounded-full px-4 py-2 text-sm font-medium text-neutral-600 transition-colors hover:bg-neutral-100 hover:text-neutral-900 dark:text-neutral-300 dark:hover:bg-white/10 dark:hover:text-white",
+                  "relative flex items-center gap-1 rounded-full px-4 py-2 text-sm font-medium text-neutral-300 transition-colors hover:bg-white/10 hover:text-white"
                 )}
               >
                 <span className="block sm:hidden">{navItem.icon}</span>
@@ -73,9 +64,21 @@ export const FloatingNav = ({
               </a>
             ))}
           </div>
+
           {/* Divider */}
-          <div className="h-5 w-px bg-neutral-200 dark:bg-white/10" />
-          {/* CTA Button */}
+          <div className="h-5 w-px bg-white/10" />
+
+          {/* Carrito */}
+          <a href="/cart" className="relative flex items-center justify-center w-8 h-8">
+            <IconShoppingBag size={18} className="text-white/60 hover:text-white transition-colors" />
+            {totalItems > 0 && (
+              <span className="absolute -top-1 -right-1 bg-[#FF3B30] text-white text-[9px] w-4 h-4 rounded-full flex items-center justify-center">
+                {totalItems}
+              </span>
+            )}
+          </a>
+
+          {/* Login */}
           <a
             href="/login"
             className="relative rounded-full bg-[#FF3B30] px-4 py-2 text-sm font-medium text-white transition-all hover:bg-[#cc2f26]"
