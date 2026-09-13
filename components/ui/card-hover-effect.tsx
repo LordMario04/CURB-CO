@@ -50,7 +50,7 @@ export const HoverEffect = ({
             )}
           </AnimatePresence>
           <div className="rounded-sm h-full w-full overflow-hidden bg-[#111] border border-white/5 group-hover:border-[#FF3B30]/30 relative z-20 transition-colors">
-            <div className="h-48 bg-[#1a1a1a] flex items-center justify-center relative overflow-hidden">
+            <div className="h-64 bg-[#1a1a1a] flex items-center justify-center relative overflow-hidden">
               {item.tag && (
                 <span className="absolute top-2 left-2 z-10 bg-[#FF3B30] text-white text-[9px] tracking-[1px] uppercase px-2 py-1">
                   {item.tag}
@@ -67,6 +67,12 @@ export const HoverEffect = ({
                   {item.brand.slice(0, 2)}
                 </span>
               )}
+              {/* Overlay hover */}
+              <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center z-20">
+                <span className="text-white text-[10px] tracking-[3px] uppercase border border-white/50 px-4 py-2">
+                  Ver producto
+                </span>
+              </div>
             </div>
             <div className="p-4">
               <p className="text-white/30 text-[9px] tracking-[2px] uppercase mb-1">

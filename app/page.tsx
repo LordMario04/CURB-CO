@@ -93,9 +93,7 @@ export default function Home() {
       {/* Productos más vendidos */}
       <section className="w-full max-w-6xl mx-auto px-6 py-16">
         <div className="flex items-baseline justify-between mb-8">
-          <h2 className="text-white text-xs tracking-[4px] uppercase">
-            Más vendidos
-          </h2>
+          <h2 className="text-white text-2xl tracking-[4px] uppercase">Más vendidos</h2>
           <Link
             href="/shop"
             className="text-[#FF3B30] text-xs tracking-[2px] uppercase hover:underline"
@@ -147,30 +145,28 @@ export default function Home() {
       {/* Categorías */}
       <section className="w-full max-w-6xl mx-auto px-6 py-16">
         <div className="flex items-baseline justify-between mb-8">
-          <h2 className="text-white text-xs tracking-[4px] uppercase">
-            Categorías
-          </h2>
+          <h2 className="text-white text-2xl tracking-[4px] uppercase">Categorías</h2>
         </div>
         <BentoGrid>
           <BentoGridItem
             title="Ropa"
             count="120"
-            icon={<IconShirt size={28} />}
+            image= "/images/ropa.jpg"
           />
           <BentoGridItem
             title="Zapatillas"
             count="85"
-            icon={<IconShoe size={28} />}
+            image= "/images/zapatillas.jpg"
           />
           <BentoGridItem
             title="Accesorios"
             count="64"
-            icon={<IconSunglasses size={28} />}
+            image= "/images/accesorios.jpg"
           />
           <BentoGridItem
             title="Skate Gear"
             count="43"
-            icon={<IconTrowel size={28} />}
+            image= "/images/skate-gear.jpg"
           />
         </BentoGrid>
       </section>
