@@ -138,3 +138,12 @@
 .animate-scroll {
   animation: scroll var(--animation-duration, 40s) var(--animation-direction, forwards) linear infinite;
 }
+
+h1, h2, h3 {
+  font-family: var(--font-bebas);
+  letter-spacing: 0.05em;
+}
+
+body {
+  font-family: var(--font-inter);
+}
