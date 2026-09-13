@@ -4,6 +4,7 @@ import { IconHome, IconShirt, IconTag, IconUser } from "@tabler/icons-react";
 import { motion } from "motion/react";
 import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
+import { Link } from "lucide-react";
 
 const navItems = [
   { name: "Shop", link: "/shop", icon: <IconShirt size={16} /> },
@@ -27,11 +28,14 @@ export default function ProductPage() {
       });
   }, [id]);
 
-  if (loading) return (
-    <main className="min-h-screen bg-[#0a0a0a] flex items-center justify-center">
-      <p className="text-white/20 text-xs tracking-[2px] uppercase">Cargando...</p>
-    </main>
-  );
+  if (loading)
+    return (
+      <main className="min-h-screen bg-[#0a0a0a] flex items-center justify-center">
+        <p className="text-white/20 text-xs tracking-[2px] uppercase">
+          Cargando...
+        </p>
+      </main>
+    );
 
   const sizes = ["S", "M", "L", "XL", "XXL"];
 
@@ -41,11 +45,23 @@ export default function ProductPage() {
 
       <div className="max-w-6xl mx-auto px-6 pt-32 pb-16">
         <div className="flex gap-2 items-center mb-12">
-          <a href="/" className="text-white/20 text-[10px] tracking-[2px] uppercase hover:text-white transition-colors">Home</a>
+          <Link
+            href="/"
+            className="text-white/20 text-[10px] tracking-[2px] uppercase hover:text-white transition-colors"
+          >
+            Home
+          </Link>
           <span className="text-white/10 text-[10px]">/</span>
-          <a href="/shop" className="text-white/20 text-[10px] tracking-[2px] uppercase hover:text-white transition-colors">Shop</a>
+          <Link
+            href="/shop"
+            className="text-white/20 text-[10px] tracking-[2px] uppercase hover:text-white transition-colors"
+          >
+            Shop
+          </Link>
           <span className="text-white/10 text-[10px]">/</span>
-          <span className="text-[#FF3B30] text-[10px] tracking-[2px] uppercase">{product.title}</span>
+          <span className="text-[#FF3B30] text-[10px] tracking-[2px] uppercase">
+            {product.title}
+          </span>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
@@ -60,9 +76,17 @@ export default function ProductPage() {
                 {product.tag}
               </span>
             )}
-            <span className="text-white/10 text-8xl font-bold tracking-widest uppercase">
-              {product.brand.slice(0, 2)}
-            </span>
+            {product.image ? (
+              <img
+                src={product.image}
+                alt={product.title}
+                className="w-full h-full object-cover opacity-90"
+              />
+            ) : (
+              <span className="text-white/10 text-8xl font-bold tracking-widest uppercase">
+                {product.brand.slice(0, 2)}
+              </span>
+            )}
           </motion.div>
 
           <motion.div
@@ -72,17 +96,26 @@ export default function ProductPage() {
             className="flex flex-col justify-center gap-6"
           >
             <div>
-              <p className="text-[#FF3B30] text-[10px] tracking-[3px] uppercase mb-2">{product.brand}</p>
-              <h1 className="text-white text-3xl font-bold tracking-wide mb-4">{product.title}</h1>
-              <span className="text-[#FF3B30] text-2xl font-medium">{product.price}</span>
+              <p className="text-[#FF3B30] text-[10px] tracking-[3px] uppercase mb-2">
+                {product.brand}
+              </p>
+              <h1 className="text-white text-3xl font-bold tracking-wide mb-4">
+                {product.title}
+              </h1>
+              <span className="text-[#FF3B30] text-2xl font-medium">
+                {product.price}
+              </span>
             </div>
 
             <p className="text-white/30 text-sm leading-relaxed tracking-wide">
-              Producto auténtico de {product.brand}. Categoría: {product.category}.
+              Producto auténtico de {product.brand}. Categoría:{" "}
+              {product.category}.
             </p>
 
             <div>
-              <p className="text-white/40 text-[10px] tracking-[2px] uppercase mb-3">Talla</p>
+              <p className="text-white/40 text-[10px] tracking-[2px] uppercase mb-3">
+                Talla
+              </p>
               <div className="flex gap-2">
                 {sizes.map((size) => (
                   <button

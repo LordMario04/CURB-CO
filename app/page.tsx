@@ -43,18 +43,18 @@ export default function Home() {
           transition={{ delay: 0.7, duration: 0.8, ease: "easeInOut" }}
           className="flex gap-4 mt-8"
         >
-          <a
+          <Link
             href="/shop"
             className="bg-[#FF3B30] text-white px-8 py-3 text-xs tracking-[2px] uppercase hover:bg-[#cc2f26] transition-colors"
           >
             Ver colección
-          </a>
-          <a
+          </Link>
+          <Link
             href="/new"
             className="border border-white/20 text-white px-8 py-3 text-xs tracking-[2px] uppercase hover:border-white/50 transition-colors"
           >
             New drops
-          </a>
+          </Link>
         </motion.div>
       </LampContainer>
       {/* Barra de marcas */}
@@ -79,29 +79,48 @@ export default function Home() {
           <h2 className="text-white text-xs tracking-[4px] uppercase">
             Más vendidos
           </h2>
-          <a
+          <Link
             href="/shop"
             className="text-[#FF3B30] text-xs tracking-[2px] uppercase hover:underline"
           >
             Ver todo →
-          </a>
+          </Link>
         </div>
         <HoverEffect
           items={[
             {
+              id: 17,
               brand: "Thrasher",
               title: "Mag Logo Hoodie",
               price: "$89.900",
               tag: "Hot",
+              image: "https://i.ebayimg.com/images/g/7A4AAOSwcOZlrhMW/s-l1200.jpg",
             },
-            { brand: "Vans", title: "Old Skool Pro", price: "$129.900" },
             {
+              id: 18,
+              brand: "Vans",
+              title: "Old Skool Pro",
+              price: "$129.900",
+              tag: "Sold Out",
+              image:
+                "https://cdn-images.farfetch-contents.com/15/94/58/48/15945848_44299334_1000.jpg",
+            },
+            {
+              id: 19,
               brand: "Santa Cruz",
               title: "Screaming Hand Tee",
               price: "$45.900",
               tag: "Sale",
+              image: "https://img.nhs-info.com/heroes/santa_cruz_skateboards_screaming_hand_mobile_1699999705.jpg",
             },
-            { brand: "Volcom", title: "Full Stone Cap", price: "$38.900" },
+            {
+              id: 20,
+              brand: "Volcom",
+              title: "Full Stone Cap",
+              price: "$38.900",
+              tag: "New",
+              image: "https://www.volcom.com.au/cdn/shop/files/D5512320_BLK_100.jpg?v=1734070421&width=1420",
+            },
           ]}
         />
       </section>
@@ -153,7 +172,7 @@ export default function Home() {
               Solo este fin de semana · Envío gratis desde $80.000
             </p>
           </div>
-          <a href="/sale">
+          <Link href="/sale">
             <MovingBorderButton
               borderRadius="0px"
               borderClassName="bg-[radial-gradient(#FF3B30_40%,transparent_60%)]"
@@ -162,7 +181,7 @@ export default function Home() {
             >
               Ver oferta
             </MovingBorderButton>
-          </a>
+          </Link>
         </div>
       </section>
       {/* Footer */}
@@ -248,13 +267,13 @@ export default function Home() {
           </span>
           <div className="flex gap-6">
             {["Instagram", "TikTok", "Pinterest"].map((social) => (
-              <a
+              <Link
                 key={social}
                 href="#"
                 className="text-white/20 text-[10px] tracking-[2px] uppercase hover:text-[#FF3B30] transition-colors"
               >
                 {social}
-              </a>
+              </Link>
             ))}
           </div>
         </div>
