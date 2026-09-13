@@ -1,5 +1,5 @@
 "use client";
-import { useState, type ReactNode } from "react";
+import { useState, useSyncExternalStore, type ReactNode } from "react";
 import { useCartStore } from "@/store/cartStore";
 import { IconShoppingBag } from "@tabler/icons-react";
 import {
@@ -24,6 +24,11 @@ export const FloatingNav = ({
   const { scrollYProgress } = useScroll();
   const totalItems = useCartStore((state) => state.getTotalItems());
   const [visible, setVisible] = useState(false);
+  const mounted = useSyncExternalStore(
+    () => () => {},
+    () => true,
+    () => false
+  );
 
   useMotionValueEvent(scrollYProgress, "change", (current) => {
     if (typeof current === "number") {
@@ -71,7 +76,7 @@ export const FloatingNav = ({
           {/* Carrito */}
           <a href="/cart" className="relative flex items-center justify-center w-8 h-8">
             <IconShoppingBag size={18} className="text-white/60 hover:text-white transition-colors" />
-            {totalItems > 0 && (
+            {mounted && totalItems > 0 && (
               <span className="absolute -top-1 -right-1 bg-[#FF3B30] text-white text-[9px] w-4 h-4 rounded-full flex items-center justify-center">
                 {totalItems}
               </span>

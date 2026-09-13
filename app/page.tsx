@@ -1,7 +1,6 @@
 "use client";
 
 import { FloatingNav } from "@/components/ui/floating-navbar";
-import { LampContainer } from "@/components/ui/lamp";
 import { InfiniteMovingCards } from "@/components/ui/infinite-moving-cards";
 import { BentoGrid, BentoGridItem } from "@/components/ui/bento-grid";
 import {
@@ -20,43 +19,61 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-[#0a0a0a]">
       <FloatingNav navItems={navItems} />
-      <LampContainer>
-        <motion.h1
-          initial={{ opacity: 0.5, y: 100 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3, duration: 0.8, ease: "easeInOut" }}
-          className="mt-8 py-4 text-center text-6xl font-bold tracking-widest text-white uppercase md:text-8xl"
+      {/* Hero con video de fondo */}
+      <div className="relative min-h-screen flex items-center justify-center overflow-hidden">
+        {/* Video de fondo */}
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover"
         >
-          CURB CO.
-        </motion.h1>
-        <motion.p
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5, duration: 0.8, ease: "easeInOut" }}
-          className="text-center text-[#FF3B30] tracking-[4px] uppercase text-sm mt-2"
-        >
-          From the Curb Up.
-        </motion.p>
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.7, duration: 0.8, ease: "easeInOut" }}
-          className="flex gap-4 mt-8"
-        >
-          <Link
-            href="/shop"
-            className="bg-[#FF3B30] text-white px-8 py-3 text-xs tracking-[2px] uppercase hover:bg-[#cc2f26] transition-colors"
+          <source src="/video/skate.mp4" type="video/mp4" />
+        </video>
+
+        {/* Overlay oscuro */}
+        <div className="absolute inset-0 bg-black/60" />
+
+        {/* Contenido */}
+        <div className="relative z-10 flex flex-col items-center gap-6 text-center px-6">
+          <motion.h1
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3, duration: 0.8, ease: "easeInOut" }}
+            className="text-7xl md:text-9xl font-bold tracking-widest text-white uppercase"
           >
-            Ver colección
-          </Link>
-          <Link
-            href="/new"
-            className="border border-white/20 text-white px-8 py-3 text-xs tracking-[2px] uppercase hover:border-white/50 transition-colors"
+            CURB CO.
+          </motion.h1>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.5, duration: 0.8, ease: "easeInOut" }}
+            className="text-[#FF3B30] tracking-[6px] uppercase text-sm"
           >
-            New drops
-          </Link>
-        </motion.div>
-      </LampContainer>
+            From the Curb Up.
+          </motion.p>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.7, duration: 0.8, ease: "easeInOut" }}
+            className="flex gap-4 mt-4"
+          >
+            <Link
+              href="/shop"
+              className="bg-[#FF3B30] text-white px-10 py-3 text-xs tracking-[2px] uppercase hover:bg-[#cc2f26] transition-colors"
+            >
+              Ver colección
+            </Link>
+            <Link
+              href="/new"
+              className="border border-white/40 text-white px-10 py-3 text-xs tracking-[2px] uppercase hover:border-white transition-colors"
+            >
+              New drops
+            </Link>
+          </motion.div>
+        </div>
+      </div>
       {/* Barra de marcas */}
       <div className="w-full border-y border-white/5 py-6 bg-[#0a0a0a]">
         <InfiniteMovingCards
@@ -94,7 +111,8 @@ export default function Home() {
               title: "Mag Logo Hoodie",
               price: "$89.900",
               tag: "Hot",
-              image: "https://i.ebayimg.com/images/g/7A4AAOSwcOZlrhMW/s-l1200.jpg",
+              image:
+                "https://i.ebayimg.com/images/g/7A4AAOSwcOZlrhMW/s-l1200.jpg",
             },
             {
               id: 18,
@@ -111,7 +129,8 @@ export default function Home() {
               title: "Screaming Hand Tee",
               price: "$45.900",
               tag: "Sale",
-              image: "https://img.nhs-info.com/heroes/santa_cruz_skateboards_screaming_hand_mobile_1699999705.jpg",
+              image:
+                "https://img.nhs-info.com/heroes/santa_cruz_skateboards_screaming_hand_mobile_1699999705.jpg",
             },
             {
               id: 20,
@@ -119,7 +138,8 @@ export default function Home() {
               title: "Full Stone Cap",
               price: "$38.900",
               tag: "New",
-              image: "https://www.volcom.com.au/cdn/shop/files/D5512320_BLK_100.jpg?v=1734070421&width=1420",
+              image:
+                "https://www.volcom.com.au/cdn/shop/files/D5512320_BLK_100.jpg?v=1734070421&width=1420",
             },
           ]}
         />
