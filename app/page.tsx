@@ -3,25 +3,29 @@
 import { FloatingNav } from "@/components/ui/floating-navbar";
 import { InfiniteMovingCards } from "@/components/ui/infinite-moving-cards";
 import { BentoGrid, BentoGridItem } from "@/components/ui/bento-grid";
-import {
-  IconShirt,
-  IconShoe,
-  IconSunglasses,
-  IconTrowel,
-} from "@tabler/icons-react";
 import { Button as MovingBorderButton } from "@/components/ui/moving-border";
 import { HoverEffect } from "@/components/ui/card-hover-effect";
+import type { Product } from "@/components/ui/card-hover-effect";
 import { motion } from "motion/react";
 import Link from "next/link";
 import { navItems } from "@/lib/nav";
+import { useEffect, useState } from "react";
 
 export default function Home() {
+  const [featured, setFeatured] = useState<Product[]>([]);
+
+  useEffect(() => {
+    fetch("http://localhost:8081/api/products")
+      .then((res) => res.json())
+      .then((data) => setFeatured(data.slice(0, 4)))
+      .catch(() => setFeatured([]));
+  }, []);
+
   return (
     <main className="min-h-screen bg-[#0a0a0a]">
       <FloatingNav navItems={navItems} />
       {/* Hero con video de fondo */}
       <div className="relative min-h-screen flex items-center justify-center overflow-hidden">
-        {/* Video de fondo */}
         <video
           autoPlay
           muted
@@ -32,10 +36,8 @@ export default function Home() {
           <source src="/video/skate.mp4" type="video/mp4" />
         </video>
 
-        {/* Overlay oscuro */}
         <div className="absolute inset-0 bg-black/60" />
 
-        {/* Contenido */}
         <div className="relative z-10 flex flex-col items-center gap-6 text-center px-6">
           <motion.h1
             initial={{ opacity: 0, y: 40 }}
@@ -74,6 +76,7 @@ export default function Home() {
           </motion.div>
         </div>
       </div>
+
       {/* Barra de marcas */}
       <div className="w-full border-y border-white/5 py-6 bg-[#0a0a0a]">
         <InfiniteMovingCards
@@ -90,10 +93,13 @@ export default function Home() {
           speed="normal"
         />
       </div>
+
       {/* Productos más vendidos */}
       <section className="w-full max-w-6xl mx-auto px-6 py-16">
         <div className="flex items-baseline justify-between mb-8">
-          <h2 className="text-white text-2xl tracking-[4px] uppercase">Más vendidos</h2>
+          <h2 className="text-white text-2xl tracking-[4px] uppercase">
+            Más vendidos
+          </h2>
           <Link
             href="/shop"
             className="text-[#FF3B30] text-xs tracking-[2px] uppercase hover:underline"
@@ -101,79 +107,39 @@ export default function Home() {
             Ver todo →
           </Link>
         </div>
-        <HoverEffect
-          items={[
-            {
-              id: 17,
-              brand: "Thrasher",
-              title: "Mag Logo Hoodie",
-              price: "$89.900",
-              tag: "Hot",
-              image:
-                "https://i.ebayimg.com/images/g/7A4AAOSwcOZlrhMW/s-l1200.jpg",
-            },
-            {
-              id: 18,
-              brand: "Vans",
-              title: "Old Skool Pro",
-              price: "$129.900",
-              tag: "Sold Out",
-              image:
-                "https://cdn-images.farfetch-contents.com/15/94/58/48/15945848_44299334_1000.jpg",
-            },
-            {
-              id: 19,
-              brand: "Santa Cruz",
-              title: "Screaming Hand Tee",
-              price: "$45.900",
-              tag: "Sale",
-              image:
-                "https://img.nhs-info.com/heroes/santa_cruz_skateboards_screaming_hand_mobile_1699999705.jpg",
-            },
-            {
-              id: 20,
-              brand: "Volcom",
-              title: "Full Stone Cap",
-              price: "$38.900",
-              tag: "New",
-              image:
-                "https://www.volcom.com.au/cdn/shop/files/D5512320_BLK_100.jpg?v=1734070421&width=1420",
-            },
-          ]}
-        />
+        <HoverEffect items={featured} />
       </section>
+
       {/* Categorías */}
       <section className="w-full max-w-6xl mx-auto px-6 py-16">
         <div className="flex items-baseline justify-between mb-8">
-          <h2 className="text-white text-2xl tracking-[4px] uppercase">Categorías</h2>
+          <h2 className="text-white text-2xl tracking-[4px] uppercase">
+            Categorías
+          </h2>
         </div>
         <BentoGrid>
-          <BentoGridItem
-            title="Ropa"
-            count="120"
-            image= "/images/ropa.jpg"
-          />
+          <BentoGridItem title="Ropa" count="120" image="/images/ropa.jpg" />
           <BentoGridItem
             title="Zapatillas"
             count="85"
-            image= "/images/zapatillas.jpg"
+            image="/images/zapatillas.jpg"
           />
           <BentoGridItem
             title="Accesorios"
             count="64"
-            image= "/images/accesorios.jpg"
+            image="/images/accesorios.jpg"
           />
           <BentoGridItem
             title="Skate Gear"
             count="43"
-            image= "/images/skate-gear.jpg"
+            image="/images/skate-gear.jpg"
           />
         </BentoGrid>
       </section>
+
       {/* Banner de oferta */}
       <section className="w-full max-w-6xl mx-auto px-6 py-8 mb-16">
         <div className="relative bg-[#111] border border-white/5 rounded-sm p-10 flex flex-col md:flex-row items-center justify-between gap-8 overflow-hidden">
-          {/* Texto de fondo decorativo */}
           <span className="absolute right-0 top-0 text-[120px] font-bold text-white/[0.02] leading-none select-none pointer-events-none">
             30%
           </span>
@@ -200,10 +166,10 @@ export default function Home() {
           </Link>
         </div>
       </section>
+
       {/* Footer */}
       <footer className="w-full border-t border-white/5 bg-[#0a0a0a] py-16 px-6">
         <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-12">
-          {/* Marca */}
           <div className="col-span-2 md:col-span-1 flex flex-col gap-4">
             <span className="text-white text-lg font-bold tracking-[4px] uppercase">
               CURB CO.
@@ -216,7 +182,6 @@ export default function Home() {
             </span>
           </div>
 
-          {/* Shop */}
           <div className="flex flex-col gap-4">
             <span className="text-white text-[10px] tracking-[3px] uppercase">
               Shop
@@ -238,7 +203,6 @@ export default function Home() {
             ))}
           </div>
 
-          {/* Marcas */}
           <div className="flex flex-col gap-4">
             <span className="text-white text-[10px] tracking-[3px] uppercase">
               Marcas
@@ -254,7 +218,6 @@ export default function Home() {
             ))}
           </div>
 
-          {/* Info */}
           <div className="flex flex-col gap-4">
             <span className="text-white text-[10px] tracking-[3px] uppercase">
               Info
@@ -276,7 +239,6 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Bottom bar */}
         <div className="max-w-6xl mx-auto mt-16 pt-6 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-4">
           <span className="text-white/20 text-[10px] tracking-[1px]">
             © 2026 CURB CO. — Medellín, Colombia
