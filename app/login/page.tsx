@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
 import { motion } from "motion/react";
 import { useRouter } from "next/navigation";
@@ -36,7 +37,10 @@ export default function LoginPage() {
 
       localStorage.setItem("token", data.token);
 
-      router.push("/shop");
+      const next = new URLSearchParams(window.location.search).get("next");
+      router.push(
+        next && next.startsWith("/") && !next.startsWith("//") ? next : "/shop",
+      );
     } catch (err) {
       if (err instanceof Error) {
         setError(err.message);
@@ -58,12 +62,12 @@ export default function LoginPage() {
       >
         {/* Header */}
         <div className="mb-12 text-center">
-          <a
+          <Link
             href="/"
             className="text-white text-2xl font-bold tracking-[4px] uppercase"
           >
             CURB CO.
-          </a>
+          </Link>
 
           <p className="text-white/20 text-[10px] tracking-[3px] uppercase mt-2">
             From the Curb Up.
@@ -101,9 +105,7 @@ export default function LoginPage() {
           </div>
 
           {error && (
-            <p className="text-[#FF3B30] text-[10px] tracking-[1px]">
-              {error}
-            </p>
+            <p className="text-[#FF3B30] text-[10px] tracking-[1px]">{error}</p>
           )}
 
           <button
