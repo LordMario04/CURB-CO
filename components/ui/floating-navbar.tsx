@@ -1,8 +1,14 @@
 "use client";
-import { useState, useEffect, useSyncExternalStore, type ReactNode } from "react";
+import {
+  useState,
+  useEffect,
+  useSyncExternalStore,
+  type ReactNode,
+} from "react";
 import Link from "next/link";
 import { useCartStore } from "@/store/cartStore";
 import { IconShoppingBag } from "@tabler/icons-react";
+import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 
 export const FloatingNav = ({
@@ -20,9 +26,37 @@ export const FloatingNav = ({
   const mounted = useSyncExternalStore(
     () => () => {},
     () => true,
-    () => false
+    () => false,
   );
   const [scrolled, setScrolled] = useState(false);
+
+  const router = useRouter();
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  useEffect(() => {
+    const checkAuth = () => {
+      setIsAuthenticated(Boolean(localStorage.getItem("token")));
+    };
+
+    checkAuth();
+
+    window.addEventListener("storage", checkAuth);
+    window.addEventListener("auth-change", checkAuth);
+    window.addEventListener("focus", checkAuth);
+
+    return () => {
+      window.removeEventListener("storage", checkAuth);
+      window.removeEventListener("auth-change", checkAuth);
+      window.removeEventListener("focus", checkAuth);
+    };
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    setIsAuthenticated(false);
+    window.dispatchEvent(new Event("auth-change"));
+    router.push("/login");
+  };
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -38,7 +72,7 @@ export const FloatingNav = ({
         scrolled
           ? "bg-black/90 backdrop-blur-md border-b border-white/10"
           : "bg-gradient-to-b from-black/70 to-transparent border-b border-transparent",
-        className
+        className,
       )}
     >
       <div className="max-w-6xl mx-auto h-full px-6 flex items-center justify-between">
@@ -54,15 +88,17 @@ export const FloatingNav = ({
 
         {/* Links */}
         <nav className="hidden md:flex items-center gap-1">
-          {navItems.map((navItem) => (
-            <Link
-              key={navItem.link}
-              href={navItem.link}
-              className="px-4 py-2 text-xs tracking-[2px] uppercase text-neutral-300 hover:text-white transition-colors"
-            >
-              {navItem.name}
-            </Link>
-          ))}
+          {navItems
+            .filter((item) => item.link !== "/orders" || isAuthenticated)
+            .map((navItem) => (
+              <Link
+                key={navItem.link}
+                href={navItem.link}
+                className="px-4 py-2 text-xs tracking-[2px] uppercase text-neutral-300 hover:text-white transition-colors"
+              >
+                {navItem.name}
+              </Link>
+            ))}
         </nav>
 
         {/* Carrito + Login */}
@@ -83,12 +119,22 @@ export const FloatingNav = ({
             )}
           </Link>
 
-          <Link
-            href="/login"
-            className="bg-[#FF3B30] text-white px-5 py-2 text-xs tracking-[2px] uppercase hover:bg-[#cc2f26] transition-colors"
-          >
-            Login
-          </Link>
+          {isAuthenticated ? (
+            <button
+              type="button"
+              onClick={handleLogout}
+              className="bg-[#FF3B30] text-white px-5 py-2 text-xs tracking-[2px] uppercase hover:bg-[#cc2f26] transition-colors"
+            >
+              Logout
+            </button>
+          ) : (
+            <Link
+              href="/login"
+              className="bg-[#FF3B30] text-white px-5 py-2 text-xs tracking-[2px] uppercase hover:bg-[#cc2f26] transition-colors"
+            >
+              Login
+            </Link>
+          )}
         </div>
       </div>
     </header>
